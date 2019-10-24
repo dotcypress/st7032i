@@ -1,0 +1,28 @@
+[package]
+name = "st7032i"
+version = "0.0.1"
+authors = ["Vitaly Domnikov <oss@vitaly.codes>"]
+edition = "2018"
+documentation = "https://docs.rs/st7032i"
+repository = "https://github.com/dotcypress/st7032i"
+license = "MIT/Apache-2.0"
+description = "Platform agnostic Rust driver for the Sitronix ST7032i Dot Matrix LCD Controller."
+readme = "README.md"
+keywords = ["st7032i", "lcd", "driver", "embedded-hal-driver"]
+categories = ["embedded", "hardware-support", "no-std"]
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE-MIT",
+    "LICENSE-APACHE",
+]
+
+[dependencies]
+embedded-hal = "0.2"
+
+[dev-dependencies]
+linux-embedded-hal = "0.2"
+
+[profile.release]
+lto = true
