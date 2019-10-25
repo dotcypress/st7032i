@@ -21,9 +21,8 @@
 //! Then instantiate the device:
 //!
 //! ```no_run
-//! # extern crate linux_embedded_hal as hal;
-//! # extern crate st7032i;
-//! use hal::{Delay, I2cdev};
+//! use core::fmt::Write;
+//! use linux_embedded_hal::{Delay, I2cdev};
 //! use st7032i::ST7032i;
 //!
 //! # fn main() {
@@ -281,7 +280,7 @@ where
     }
 
     fn send_command(&mut self, command: u8) -> Result<(), E> {
-        self.i2c.write(I2C_ADRESS, &[0b_00000000, command])?;
+        self.i2c.write(I2C_ADRESS, &[0x80, command])?;
         self.delay.delay_ms(1);
         Ok(())
     }
@@ -293,9 +292,16 @@ where
     D: DelayMs<u8>,
 {
     fn write_str(&mut self, s: &str) -> fmt::Result {
-        for byte in s.as_bytes() {
-            self.i2c.write(I2C_ADRESS, &[0b_01000000, *byte]).ok();
+        for c in s.chars() {
+            self.write_char(c)?;
         }
+        Ok(())
+    }
+
+    fn write_char(&mut self, c: char) -> fmt::Result {
+        let mut command = [0x40, 0];
+        c.encode_utf8(&mut command[1..]);
+        self.i2c.write(I2C_ADRESS, &command).ok();
         Ok(())
     }
 }
