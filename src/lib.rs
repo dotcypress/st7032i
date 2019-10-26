@@ -299,9 +299,9 @@ where
     }
 
     fn write_char(&mut self, c: char) -> fmt::Result {
-        let mut command = [0x40, 0];
+        let mut command = [0x40, 0, 0, 0];
         c.encode_utf8(&mut command[1..]);
-        self.i2c.write(I2C_ADRESS, &command).ok();
+        self.i2c.write(I2C_ADRESS, &command[..2]).ok();
         Ok(())
     }
 }
