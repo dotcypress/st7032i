@@ -29,9 +29,9 @@
 //! let dev = I2cdev::new("/dev/i2c-1")?;
 //! let mut display = ST7032i::new(dev, Delay, 2);
 //! display.init()?;
-//! writeln!(display, "Hello")?;
+//! write!(display, "Hello")?;
 //! display.move_cursor(1, 0)?;
-//! writeln!(display, "Rust")?;
+//! write!(display, "Rust")?;
 //! # }
 //! ```
 
