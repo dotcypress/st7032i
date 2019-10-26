@@ -127,7 +127,7 @@ dependencies = [
 
 [[package]]
 name = "st7032i"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "embedded-hal 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "linux-embedded-hal 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
