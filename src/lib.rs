@@ -52,7 +52,7 @@ enum InstructionSet {
     Extented,
 }
 
-/// Text moving direction
+/// Moving direction
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Direction {
     LeftToRigh,
@@ -206,6 +206,20 @@ where
         self.send_command(command)
     }
 
+    /// Create custom character in CGRAM
+    pub fn create_char(&mut self, offset: u8, bitmap: [u8; 8]) -> Result<(), E> {
+        self.send_command(0x40 | ((offset & 0x7) << 3))?;
+
+        let mut command = [0x40, 0];
+        for byte in bitmap.iter() {
+            command[1] = *byte;
+            self.i2c.write(I2C_ADRESS, &command).ok();
+        }
+
+        self.delay.delay_ms(1);
+        Ok(())
+    }
+
     fn send_entry_mode(&mut self) -> Result<(), E> {
         let mut command = 0b_00000100;
         if self.scroll {
@@ -295,6 +309,7 @@ where
         for c in s.chars() {
             self.write_char(c)?;
         }
+        self.delay.delay_ms(1);
         Ok(())
     }
 
